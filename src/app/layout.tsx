@@ -16,6 +16,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <meta name="renderer" content="webkit"/>
+<meta name="referrer" content="never"></meta>
       <body className={inter.className}>{children}</body>
     </html>
   )

@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       colors:{
         "themeColor":'#4b5cc4',
+        "card":"rgb(0,0,0,.1)",
         "darkthemeColor":'#065279'
       },
       backgroundImage: {
