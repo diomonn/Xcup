@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// C->CS
+model LinkCardGather {
+  id        Int        @id @default(autoincrement())
+  authorId  Int
+  author    User       @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  RoleList  String[]
+  LinkCard  LinkCard[]
+  title     String
+  createdAt DateTime   @default(now()) @db.Timestamp(6)
+  open      Boolean    @default(false)
+}
+
+model LinkCard {
+  Gather      Int
+  Gartherlist LinkCardGather @relation(fields: [Gather], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id          Int            @id @default(autoincrement())
+  title       String         @db.VarChar(255)
+  url         String
+  description String
+  image       String
+  createdAt   DateTime       @default(now()) @db.Timestamp(6)
+}
+
+model User {
+  id             Int              @id @default(autoincrement())
+  name           String?          @db.VarChar(255)
+  email          String           @unique @db.VarChar(255)
+  LinkCardGather LinkCardGather[]
+}

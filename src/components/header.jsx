@@ -1,8 +1,8 @@
 import Image from 'next/image' 
 import Link from 'next/link'
 const header=()=>{
+  const User=false
   return <header className="
-
   p-10
   text-white dark:bg-black flex w-[100%]
    justify-between items-center h-[5vh] 
@@ -12,7 +12,9 @@ const header=()=>{
          <Link href='/new'>New</Link>
          <Link href='/new'>my</Link>
     </div>
-    <div>用户</div>
+    <div>
+      <button>登录</button>
+    </div>
   </header>
 }
 
