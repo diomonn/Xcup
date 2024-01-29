@@ -29,7 +29,9 @@ return <div className="w-[100vw] flex justify-center flex-col items-center">
      </div>
      <div className="flex gap-3">
      <input type="text" placeholder="这里" value={url}
-     onInput={e=>seturl(e.target.value)}     
+     onChange={(e)=>{seturl(e.target.value)}
+    }   
+     
      className="p-2 no-underline w-80" name="" id="" />
          <button onClick={()=>a(url)} className="p-2 bg-black text-white rounded-md hover:bg-slate-600">
 {!link?'添加链接':'解析中-'}
