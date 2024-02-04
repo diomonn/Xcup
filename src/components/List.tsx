@@ -1,22 +1,94 @@
 'use client'
-import Image from 'next/image' 
-import Link from 'next/link'
-import {MaterialSymbolsLightCloseRounded} from '@/Svg/index'
-const Card=({description,image,title,url}:Link)=>{
-  return <div className='mt-3 relative  shadow-orange-300 shadow-md   hover:bg-card  cursor-pointer  w-[600px] min-w-92 h-auto p-2 rounded-lg gap-2 flex justify-between '>
-  {
-    image?<img className='w-40 h-40' src={image} alt="" />:''
+import {Zheng} from '@/style/fonts'
+import { Link } from '../../type'
+import { LinkCard } from '@prisma/client'
+import {HamburgerMenuIcon} from '@radix-ui/react-icons'
+import * as Menubar from '@radix-ui/react-menubar';
+export const openSpring = { type: "spring", stiffness: 200, damping: 30 };
+export const closeSpring = { type: "spring", stiffness: 300, damping: 35 };
+const GET=async (Link:LinkCard,ID:string)=>{
+  const res= await fetch('http://localhost:3000/api/LinkCard',{
+    method:'GET',
+    body:JSON.stringify({...Link,ID})
+   }).then(res=>{
+    
+    return res.json()
+   })
+   console.log(res);
+   
+}
+
+
+ 
+
+const Card= ({description,image,title,url}:Link)=>{
+  const SplitUrlIcon=(url:string)=>{
+    // https://twitter.com/favicon.ico
+    const str=url.split('/')
+    return str[0]+'//'+str[2]+'/favicon.ico'
   }
-     <div>
-      <h1 className='text-2xl font-bold'>{title}</h1>
-      <h1 className='text-[14px] font-bold'>{description}</h1>
-     </div>
-     <div className=' absolute -right-3 border rounded-full  border-black -top-3
-      hover:border-[red] hover:-translate-y-1 transform'><MaterialSymbolsLightCloseRounded className=' hover:text-[red] font-sans text-2xl'/></div>
-  </div>
+  
+  return <div className=' w-[550px] border-[0.5px] border-gray-600  rounded-xl 
+  backdrop-filter backdrop-blur-md h-40 p-2 backdrop-opacity-5 backdrop-invert bg-white/30 hover:bg-slate-300/30 cursor-pointer  flex
+   gap-2
+  '>
+    <div className=' w-32   rounded-xl overflow-hidden flex
+      justify-center items-center accent-indigo-600  border-r-[0.5px] border-black '>
+     {
+      image?<img className='w-full h-full ' src={image} alt="title" />:<img className='w-[50%] h-[50%]' src={SplitUrlIcon(url)} alt="title" />
+     }
+    </div>
+    <div className=' w-[calc(500px-8rem)] flex flex-col gap-2 justify-center  overflow-hidden'>
+      <p className={Zheng.className}>{title}</p>
+      <p className={Zheng.className}>{description}</p>
+    </div>
+    <div>
+    <Menubar.Root className="MenubarRoot">
+      <Menubar.Menu>
+        <Menubar.Trigger className="MenubarTrigger">
+          <HamburgerMenuIcon/>
+        </Menubar.Trigger>
+        <Menubar.Portal>
+          <Menubar.Content className="" align="start" sideOffset={5} alignOffset={-3}>
+            <Menubar.Item className="MenubarItem">
+             更改标题
+            </Menubar.Item>
+            <Menubar.Item className="MenubarItem">
+              备注
+            </Menubar.Item>
+            <Menubar.Item className="MenubarItem" disabled>
+              
+            </Menubar.Item>
+            <Menubar.Separator className="MenubarSeparator" />
+            <Menubar.Sub>
+              <Menubar.SubTrigger className="MenubarSubTrigger">
+              添加到合集
+              </Menubar.SubTrigger>
+              <Menubar.Portal>
+                <Menubar.SubContent className="MenubarSubContent" alignOffset={5}>
+                  <Menubar.Item className="MenubarItem">Email Link</Menubar.Item>
+                  <Menubar.Item className="MenubarItem">Messages</Menubar.Item>
+                  <Menubar.Item className="MenubarItem">Notes</Menubar.Item>
+                </Menubar.SubContent>
+              </Menubar.Portal>
+            </Menubar.Sub>
+            <Menubar.Separator className="MenubarSeparator" />
+            <Menubar.Item className="MenubarItem">
+             <text className='text-red-500 text-ellipsis'>删除</text>
+            </Menubar.Item>
+          </Menubar.Content>
+        </Menubar.Portal>
+      </Menubar.Menu>
+</Menubar.Root>
+    </div>
+  </div> 
 }
 const Linklist=({link}:{link:Link[]})=>{
- return <div className='flex flex-col-reverse  gap-5'>
+ return <div className=' flex justify-center   flex-col p-3 gap-2'>
+  
+  <Card title='yi1' description='你好啊' image='https://okami.my.id/wp-content/uploads/2023/06/1LaLaLa1.jpg'
+  url='www.baidu.com'
+  ></Card>
    {link.map(msg=>{
     // eslint-disable-next-line react/jsx-key
     return <Card title={msg.title} description= {msg.description} image={msg.image} url={msg.url} ></Card>

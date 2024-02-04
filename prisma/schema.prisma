@@ -1,41 +1,83 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
-
-// C->CS
 model LinkCardGather {
-  id        Int        @id @default(autoincrement())
-  authorId  Int
-  author    User       @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  RoleList  String[]
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  userId String  @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id]) 
   LinkCard  LinkCard[]
   title     String
-  createdAt DateTime   @default(now()) @db.Timestamp(6)
+  createdAt DateTime   @default(now()) 
   open      Boolean    @default(false)
 }
 
-model LinkCard {
-  Gather      Int
-  Gartherlist LinkCardGather @relation(fields: [Gather], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  id          Int            @id @default(autoincrement())
-  title       String         @db.VarChar(255)
+model LinkCard { 
+  id          String            @id @default(auto()) @map("_id") @db.ObjectId
+  title       String   
+  LinkCardGatherID String  @db.ObjectId
+  LinkCardGather   LinkCardGather   @relation(fields: [LinkCardGatherID], references: [id])      
   url         String
   description String
-  image       String
-  createdAt   DateTime       @default(now()) @db.Timestamp(6)
+  image       String 
+  createNameRole String
+  createdAt   DateTime       @default(now()) 
+}
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+model User {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  LinkCaradS    LinkCardGather[]
+}
+model VerificationToken {
+  identifier String   @id @default(auto()) @map("_id") @db.ObjectId
+  token      String   @unique
+  expires    DateTime
+  @@unique([identifier, token])
 }
 
-model User {
-  id             Int              @id @default(autoincrement())
-  name           String?          @db.VarChar(255)
-  email          String           @unique @db.VarChar(255)
-  LinkCardGather LinkCardGather[]
-}
+// model User {
+//   id    String @id @default(auto())   @map("_id") @db.ObjectId()
+//   email String @unique
+//   name  String
+//   image String
+//   emailVerified DateTime?
+//   password String?
+//   session String?
+//   LinkCardGather LinkCardGather[]
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   Session Session[]
+//   Account Account[]
+// }

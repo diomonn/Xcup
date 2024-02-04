@@ -34,7 +34,7 @@ const $ = cheerio.load(res.data);
         title:isnull($('title').text())??isnull($('meta[property=twitter:title]').attr('content'))??isnull($('meta[property=og:title]').attr('content')),     
         description:isnull($('meta[name=description]').attr('content'))??isnull($('meta[property=og:description]').attr('content'))??$('meta[property=twitter:description]').attr('content'),
         image:$('meta[property=og:image]').attr('content')??$('meta[name=image]').attr('content'),
-        url:$('meta[property=og:url]').attr('content')
+        url:url
       }
   } catch (error) {
       console.error(error)

@@ -1,5 +1,22 @@
+'use client'
 import Image from 'next/image' 
 import Link from 'next/link'
+import Avatar from '@/components/ui/avatar'
+import {MaterialSymbolsModeNightOutlineRounded,MaterialSymbolsSunnyOutline} from '@/Svg/index'
+import * as Auth from 'next-auth/react'
+const Userinfo=()=>{
+  const { data: session,update,status }=Auth.useSession()
+     if (session) {
+    return <div className='flex gap-5  '>
+     <MaterialSymbolsModeNightOutlineRounded  className='w-10 h-10'/> 
+     <MaterialSymbolsSunnyOutline  className='w-10 h-10'/> 
+    <Avatar src={session.user.image} Size='XXL'></Avatar>
+    </div>
+   }else{
+    return <div>登录</div>
+   }
+
+}
 const header=()=>{
   const User=false
   return <header className="
@@ -13,7 +30,7 @@ const header=()=>{
          <Link href='/new'>my</Link>
     </div>
     <div>
-      <button>登录</button>
+      <Userinfo></Userinfo>
     </div>
   </header>
 }

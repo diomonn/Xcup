@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import {Zheng} from '@/style/fonts'
 import './globals.css'
+import '@radix-ui/themes/styles.css'; 
 import  SessionProvider  from "@/components/SessionProvider"
 import { getServerSession } from 'next-auth'
-
-const inter = Inter({ subsets: ['latin'] })
+import { Theme,ThemePanel } from '@radix-ui/themes';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,11 +20,14 @@ export default  async function RootLayout({
 }) {
   const session= await getServerSession()
   return (
-    <html lang="en">
+    <html lang="en" className={Zheng.className}>
       <meta name="renderer" content="webkit"/>
 <meta name="referrer" content="never"></meta>
-      <body className={inter.className}>
+      <body >
+     <Theme  accentColor="red" grayColor="sand" radius="large" scaling="95%">
      <SessionProvider session={session}>{children}</SessionProvider>
+   
+     </Theme>
       </body>
     </html>
   )

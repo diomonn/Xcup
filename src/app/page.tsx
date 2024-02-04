@@ -7,7 +7,7 @@ export default async function Home() {
  
   return (
 
-<main className='bg-blue-300 w-[100vw] h-[100vh]' >
+<main className='bg-blue-300 w-[100vw] h-[100vh] ' >
  <Header></Header>
  <Main></Main>
  <Footer/>
