@@ -9,7 +9,7 @@ import { LinkCard } from "@prisma/client";
 import { Link } from "../../type";
 
 const main= ()=>{
-  const [url,seturl]=UseState('a')
+  const [url,seturl]=UseState('')
   const [link,Setlink]=UseState(false)
   const [list,Setlist]=UseState<Link[]>([])
   const { data: session,update,status }= UseSession()
@@ -33,7 +33,7 @@ const main= ()=>{
       })
       Setlist([...list,{description,image,title,url}])
     }
-return <div className="w-[100vw] flex justify-center flex-col items-center  ">
+return <div className="w-[100vw] p-2 flex justify-center flex-col items-center  ">
      <div className="m-2">
       <h1  className=" font-bold text-3xl" onClick={async ()=>{
   await signOut({ redirect: true, });
@@ -43,11 +43,13 @@ return <div className="w-[100vw] flex justify-center flex-col items-center  ">
       </h1>
      </div>
      <div className="flex gap-3">
-     <input type="text" placeholder="这里" value={url}
+     <input type="text" placeholder="https://github.com/" value={url}
+    defaultValue={'https://github.com/'}
+    
      onChange={(e)=>{seturl(e.target.value)}
     }   
-     className="p-2 no-underline w-80" name="" id="" />
-         <button onClick={()=>a(url)} className="p-2 bg-black text-white rounded-md hover:bg-slate-600">
+     className="p-2 no-underline w-80 border boder-black bg-white rounded-sm " name="" id="" />
+         <button onClick={()=>a(url)} className=" text-xs   p-2 bg-black text-white rounded-md hover:bg-slate-600">
 {!link?'添加链接':'解析中-'}
          </button>
      </div>

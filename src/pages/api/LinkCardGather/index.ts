@@ -17,6 +17,9 @@ async function GET(req:NextApiRequest,res:NextApiResponse) {
   await prisma.linkCardGather.findMany({
     where:{
       userId:Session?.user.id 
+    },
+    include:{
+      LinkCard:true
     }
   }).then(msg=>{
     return res.status(200).json(msg)

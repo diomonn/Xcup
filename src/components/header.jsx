@@ -21,7 +21,7 @@ const header=()=>{
   const User=false
   return <header className="
   p-10
-  text-white dark:bg-black flex w-[100%]
+  text-white  flex w-[100%]
    justify-between items-center h-[5vh] 
   ">
     <div className='flex gap-10'>
