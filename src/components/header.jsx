@@ -13,7 +13,7 @@ const Userinfo=()=>{
     <Avatar src={session.user.image} Size='XXL'></Avatar>
     </div>
    }else{
-    return <div>登录</div>
+    return <Link href={'/auth/login'}></Link>
    }
 
 }

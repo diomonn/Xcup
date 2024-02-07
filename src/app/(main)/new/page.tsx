@@ -14,8 +14,7 @@ export default function Home() {
   
   return (
  <main>
-<Header/>
- <div className='w-[100vh] flex justify-around'>
+ <div className='w-[100vw] '>
 <Listcard />
  </div>
  </main>

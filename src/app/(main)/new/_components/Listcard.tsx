@@ -1,11 +1,11 @@
 'use client'
 import * as React from "react"
 import {useRequest} from 'ahooks'
-import { LinkCardGather } from "../../../../type"
 import Loding from "@/components/ui/loding"
-const LinklistCard=({title}:{title:String})=>{
+import { LinkCardGather } from "../../../../../type"
+const LinklistCard=({msg}:{msg:LinkCardGather})=>{
   return <div className='w-20 h-20 border-red-100 border '>
-      {title}
+      {msg.title} + {msg.LinkCard?.length}
   </div>
 } 
 const COM=()=>{
@@ -32,9 +32,9 @@ const COM=()=>{
       
     }
   })
- return  <div>
+ return  <div className="flex justify-around w-[100%] gap-2">
  { loading ? <Loding/>: LinkListCardS.map((i,index)=>{
-      return <LinklistCard  key={index} title={i.title}></LinklistCard >
+      return <LinklistCard  key={index} msg={i}></LinklistCard >
     })
 }
  </div>

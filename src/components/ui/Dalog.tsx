@@ -12,18 +12,18 @@ const DialogDemo = ({content,title,SetTitle,msg}:change) => {
   const [newtitle,Setnew]=React.useState(title)
 return <Dialog.Root>
 <Dialog.Trigger  asChild>
-  <button className=" text-green-500  ">Edit {content}</button>
+  <button className=" text-green-500  ">编辑 {content}</button>
 </Dialog.Trigger>
 <Dialog.Portal>
   <Dialog.Overlay className="DialogOverlay" />
   <Dialog.Content className="DialogContent">
-    <Dialog.Title className="DialogTitle">Edit {content}</Dialog.Title>
+    <Dialog.Title className="DialogTitle">编辑 {content}</Dialog.Title>
     <Dialog.Description className="DialogDescription">
      {msg}
     </Dialog.Description>
     <fieldset className="Fieldset">
       <label className="Label" htmlFor="username">
-        new{content} 
+        {content} 
       </label>
       <input className="Input" id="username" defaultValue="title" value={newtitle} onChange={e=>{
 Setnew(e.target.value)

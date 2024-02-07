@@ -6,8 +6,7 @@ import {useSession as UseSession} from 'next-auth/react'
 import Linklist from '@/components/List'
 import { signOut } from 'next-auth/react'
 import { LinkCard } from "@prisma/client";
-import { Link } from "../../type";
-
+import { Link } from "../../../type";
 const main= ()=>{
   const [url,seturl]=UseState('')
   const [link,Setlink]=UseState(false)
