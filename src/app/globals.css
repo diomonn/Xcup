@@ -9,6 +9,33 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
+@layer components {
+  .input-form {
+    @apply w-full flex no-underline justify-center rounded-sm text-sm bg-black/30 text-white dark:border-violet-600  outline outline-violet-300   h-10 items-center
+  }
+  .but-form{
+    @apply p-2 bg-black/90 text-white dark:bg-violet-600 text-ellipsis font-sans rounded-md
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 9999;
+}
+.dark::view-transition-old(root) {
+  z-index: 9999;
+}
+.dark::view-transition-new(root) {
+  z-index: 1;
+}
+
 
 @media (prefers-color-scheme: dark) {
   :root {

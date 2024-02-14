@@ -2,14 +2,6 @@
 import {NextApiRequest,NextApiResponse}  from 'next'
 import  * as cheerio from 'cheerio'
 import axios from 'axios'
-const REGEXP={
- description :/(?<=description").*?(?=\/>)/,
- url :/(?<=="url").*?(?=>)/,
- image :/(?<=image").*?(?=>)/,
- title :/(?<=og:title").*?(?=>)/,
- title1 :/(?<=name="title").*?(?=>)/,
- title2 :/(?<=<title)(.*?)(?=<\/title>)/,
-}
 const Axios=axios.create({
   baseURL:'' ,
   timeout: 5000
@@ -30,6 +22,7 @@ function  isnull(str:string|undefined) {
       )
       
 const $ = cheerio.load(res.data);
+  console.log($('title').text());
       return {
         title:isnull($('title').text())??isnull($('meta[property=twitter:title]').attr('content'))??isnull($('meta[property=og:title]').attr('content')),     
         description:isnull($('meta[name=description]').attr('content'))??isnull($('meta[property=og:description]').attr('content'))??$('meta[property=twitter:description]').attr('content'),
@@ -43,9 +36,10 @@ const $ = cheerio.load(res.data);
 
 
 export default async function A(req:NextApiRequest,res:NextApiResponse){
-  const {url}=await JSON.parse(req.body)   
+  const {url}=await JSON.parse(req.body) 
+  
+  
  const a=await  getForum(url)
-console.log(a);
 
   
  res.status(200).json(a)

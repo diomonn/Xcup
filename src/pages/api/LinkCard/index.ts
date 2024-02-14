@@ -33,7 +33,7 @@ async function POST(req:NextApiRequest,res:NextApiResponse) {
         image,
         url,
         createNameRole:Session.user.name!,
-        description,
+        description:description??'',
       }       
     }).then(el=>{
       return  res.status(200).json(el)

@@ -5,6 +5,8 @@ declare  interface Link{
   image:string,
   title:string,
   url:string
+  createdAt?:DateTime 
+
 }
 declare interface LinkCardGather{
   id?:string
@@ -12,6 +14,7 @@ declare interface LinkCardGather{
  LinkCard?:LinkCard[]
  title:String
  createdAt?:DateTime 
+ description:String
  open:boolean
 }
 

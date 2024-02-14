@@ -6,6 +6,7 @@ async function main(name:string,email:string,image:string) {
     data: {
      name,
      email,
+     
      image,
     },
   })

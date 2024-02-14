@@ -18,7 +18,7 @@ export default  async function RootLayout({
 }) {
   const session= await getServerSession()
   return (
-    <div className=' bg-blue-300 min-h-[100vh]' >
+    <div className=' bg-blue-300 dark:bg-black min-h-[100vh] text-black ' >
       <Header></Header>
     {children}
     <Footer></Footer>

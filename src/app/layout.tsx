@@ -21,10 +21,8 @@ export default  async function RootLayout({
 <meta name="referrer" content="never"></meta>
       <body >
         
-     <Theme  accentColor="red" grayColor="sand" radius="large" scaling="95%">
      <SessionProvider session={session}>{children}</SessionProvider>
    
-     </Theme>
       </body>
     </html>
   )

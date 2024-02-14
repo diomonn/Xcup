@@ -24,10 +24,10 @@ export const GETNAME=async ():Promise<LinkCardGather[]|void>=>{
 return 
 }
 }
-export const PostCardList=async (title:string):Promise<LinkCardGather|void>=>{
+export const PostCardList=async (title:string,description:string,open:boolean):Promise<LinkCardGather|void>=>{
   try{ const data= await fetch(`http://localhost:3000/api/LinkCardGather`,{
     method:'POST',
-    body:JSON.stringify({title})
+    body:JSON.stringify({title,description,open})
   }).then(res=>res.json())  
   return data
 }catch{
