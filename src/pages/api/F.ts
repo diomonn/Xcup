@@ -9,6 +9,9 @@ const Axios=axios.create({
 function  isnull(str:string|undefined) {
   return str===''?null:str
 }
+
+
+
  async function getForum(url:string) {
   try {
       const res = await Axios.get(
@@ -40,7 +43,12 @@ export default async function A(req:NextApiRequest,res:NextApiResponse){
   
   
  const a=await  getForum(url)
-
-  
+ if (a) {
  res.status(200).json(a)
+ }    else {  
+  res.status(404).json({
+    ok:0,
+    msg:'网站禁止解析或者无法找到'
+  })
+ }
 }

@@ -41,7 +41,6 @@ import {MaterialSymbolsModeNightOutlineRounded,MaterialSymbolsSunnyOutline} from
         handleThemeChange()
         
       })
-      
       transition.ready
         .then(() => {
           const clipPath = [
@@ -76,6 +75,7 @@ import {MaterialSymbolsModeNightOutlineRounded,MaterialSymbolsSunnyOutline} from
   };
   return (
     <div
+    className=" hover:text-yellow-500 hover:dark:text-green-400 transition-colors"
       onClick={(e)=>toggleDark(e)}
     >
       {isDark ?  <MaterialSymbolsSunnyOutline

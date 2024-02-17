@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import {Zheng} from '@/style/fonts'
 import './globals.css'
 import '@radix-ui/themes/styles.css'; 
 import  SessionProvider  from "@/components/SessionProvider"

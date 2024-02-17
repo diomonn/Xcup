@@ -1,5 +1,6 @@
 import { LinkCardGather } from "@prisma/client"
 import { promises } from "dns"
+import { User } from "next-auth"
 
 const url='http://localhost:3000/api/'
 export const POSTCARD=async (ID:string)=>{
@@ -18,7 +19,7 @@ export const GETNAME=async ():Promise<LinkCardGather[]|void>=>{
   try{ const data= await fetch(`http://localhost:3000/api/LinkCardGather/GETNAME`,{
     method:'GET',
   }).then(res=>res.json()) 
-  console.log("GETNAME----------");  
+  
   return data
 }catch{
 return 
@@ -31,6 +32,16 @@ export const PostCardList=async (title:string,description:string,open:boolean):P
   }).then(res=>res.json())  
   return data
 }catch{
-
+return
 }
+}
+export const getmanyUser=async (Them:string[]):Promise<User[]>=>{
+  const data= await fetch(`http://localhost:3000/api/user/GET`,{
+    method:'POST',
+    body:JSON.stringify(Them)
+  }).then(res=>res.json())  
+  console.log(data);
+  
+  return data
+
 }

@@ -53,6 +53,7 @@ message.user.image='https://okami.my.id/wp-content/uploads/2023/06/27LaLaLa1.jpg
     jwt:async ({token,account})=>{
       //  return token
        if (account?.accessToken) {
+        
         token.accessToken = account.accessToken;
       }
       return Promise.resolve(token);

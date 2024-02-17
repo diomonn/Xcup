@@ -1,17 +1,28 @@
 import { LinkCard,LinkCardGather, Prisma, PrismaClient } from '@prisma/client'
 import {NextApiRequest,NextApiResponse}  from 'next'
 import authID from '@/hooks/auth'
-import { getServerSession } from 'next-auth/next'
 const prisma = new PrismaClient() 
+async function deletelinkcard(id:string, ) {
+  await prisma.linkCard.deleteMany({
+    where:{
+      LinkCardGatherID:id
+    }
+  })
+  await prisma.userProject.deleteMany({
+    where:{
+      projectId:id
+    }
+  })
+}
 async function GET(req:NextApiRequest,res:NextApiResponse) {
   const [Session]=await authID(req,res)
  if (Session) {
   await prisma.linkCardGather.findMany({
     where:{
-      open:true
-      // open:true
+      open:true,
     },
     include:{
+      userTeaam:true,
       LinkCard:true
     }
   }).then(msg=>{
@@ -27,7 +38,6 @@ async function GET(req:NextApiRequest,res:NextApiResponse) {
 
 async function POST(req:NextApiRequest,res:NextApiResponse) {
   const [Session]=await authID(req,res)
-
   const {title,open,description}=await JSON.parse(req.body)
   if (Session) {
     await prisma.linkCardGather.create({
@@ -36,7 +46,7 @@ async function POST(req:NextApiRequest,res:NextApiResponse) {
         title,
         description:description,
         open,
-      }       
+      } 
     }).then(el=>{
       return  res.status(200).json(el)
     })
@@ -51,16 +61,25 @@ async function POST(req:NextApiRequest,res:NextApiResponse) {
 }
 async function DELETE(req:NextApiRequest,res:NextApiResponse) {
   const [Session]=await authID(req,res)
-  const {title,id}=await JSON.parse(req.body)
-  if (Session) {
+  const {title,id,UserId}=await JSON.parse(req.body)
+  console.log(Session);
+
+  
+  if (Session&&Session.user.id===UserId) {
+    await deletelinkcard(id)
    await prisma.linkCardGather.delete({
      where:{
        userId:Session?.user.id,
        title:title,
-       id:id
-     }
+       id:id,
+     },
    }).then(msg=>{
-     return res.status(200).json(msg)
+    console.log(msg);
+    
+    res.status(200).json({
+      ok:1,
+      msg:"成功删除"
+    })
    })
   }else{
    return res.status(404).json({
@@ -68,12 +87,17 @@ async function DELETE(req:NextApiRequest,res:NextApiResponse) {
      ok:"NOUSER"
    })
   }
+  // res.status
 }
 async function name(req:NextApiRequest,res:NextApiResponse) {
   if (req.method==='GET') {
     GET(req,res)
   }else if(req.method==='POST'){
    POST(req,res)
+  }else{
+    console.log("1");
+    
+    DELETE(req,res)
   }
 }
 

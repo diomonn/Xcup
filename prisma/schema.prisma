@@ -6,15 +6,35 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model message {
+   id        String         @id @default(auto()) @map("_id") @db.ObjectId
+   msg String
+   type String
+   LinkCardGather String @db.ObjectId
+   frid String
+   title String
+   state String
+   timestamp DateTime @default(now())
+   senderId String @db.ObjectId
+   receiverId String @db.ObjectId
+
+}
+model UserProject {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
+  project LinkCardGather @relation(fields: [projectId], references: [id])
+  projectId String @db.ObjectId
+  // @@id([userId, projectId])
+}
 model LinkCardGather {
   id        String         @id @default(auto()) @map("_id") @db.ObjectId
   userId String  @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id]) 
   LinkCard  LinkCard[]
   title     String
   description String
-  Team String[]
-  // userTeam User[] 
+  userTeaam   UserProject[] 
   createdAt DateTime   @default(now()) 
   open      Boolean    @default(false)
 }
@@ -28,7 +48,7 @@ model LinkCard {
   url         String
   description String
   image       String 
-  createNameRole String
+  createNameRole String?
   createdAt   DateTime       @default(now()) 
 }
 model Account {
@@ -70,7 +90,7 @@ model User {
   emailVerified DateTime?
   password String?
   session String?
-  LinkCardGather LinkCardGather[]
+  LinkCardGather UserProject[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Session Session[]

@@ -1,24 +1,15 @@
-import Axios from 'axios'
-const http=async (url:string)=>{
- Axios({
-  url:url,
-  method:"get",
-  proxy:{
-    host:"127.0.0.1",
-    port:7890,
-    protocol:"http"
+//window.location.href
+const copy=async (fn?:Function)=>{
+  const url=window.location.href
+ try {
+  await navigator.clipboard.writeText(url);
+  if (fn) {
+    fn()
   }
- }).then(res=>{
-var description = /(?<=name="description" ).*?(?=>)/
-var pattern1 = /(?<="name=url" ).*?(?=\/>)/
-var pattern2 = /(?<=name=image" ).*?(?=\/>)/
-console.log(res.data.match(description));
-console.log(res.data.match(pattern2)[0]);
-console.log(res.data.match(pattern1)[0]);
-})
+ } catch (error) {
+  throw new Error("复制失败")
+ }
 }
-export default http
-
-
-
-
+export {
+  copy
+}

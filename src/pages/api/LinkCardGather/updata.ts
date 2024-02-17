@@ -5,32 +5,30 @@ import authID from '@/hooks/auth'
 const prisma=new PrismaClient()
 async function GET(req:NextApiRequest,res:NextApiResponse) {
   const [Session]=await authID(req,res)
- if (Session) {
- const name=await prisma.linkCardGather.findMany({
-  where:{
-    OR:[
-      {
-       userId:Session.user.id
-      },
-      {
-       userTeaam:{
-         some:{
-          userId:Session.user.id
-         }
-       }
-      }
-    ]
-  },
-  select:{
-    id:true,
-    userId:true,
-    title:true,
-    open:true,
-    description:true,
-  }
- })
- console.log('1111111111',name);
+  const {id,linkcardMany,title,description,deleteMany,userId,bol}=JSON.parse(req.body)
+ console.log(bol);
  
+  if (Session?.user.id===userId||bol) {
+  const name=await prisma.linkCardGather.update({
+  where:{
+    id:id
+  },
+  data:{
+    title,
+    description,
+    LinkCard:{
+      deleteMany:{
+        id:{
+          in: deleteMany
+        }
+      },
+      createMany:{
+        data:linkcardMany
+      }
+    }
+  },
+  
+   })
     return res.status(200).json(name)
  }else{
   return res.status(404).json({
@@ -40,3 +38,4 @@ async function GET(req:NextApiRequest,res:NextApiResponse) {
  }
 }
 export default GET
+

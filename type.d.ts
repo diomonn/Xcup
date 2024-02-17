@@ -1,6 +1,7 @@
 import NextAuth, { DefaultSession } from "next-auth";
 
 declare  interface Link{
+  id?:string,
   description:string,
   image:string,
   title:string,
@@ -15,7 +16,13 @@ declare interface LinkCardGather{
  title:String
  createdAt?:DateTime 
  description:String
- open:boolean
+ open?:boolean
+ 
+}
+declare interface Msgtitle{
+  name:string,
+  msg:string|boolean,
+  open?:boolean
 }
 
 

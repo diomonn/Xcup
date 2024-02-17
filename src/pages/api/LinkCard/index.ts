@@ -22,6 +22,10 @@ async function GET(req:NextApiRequest,res:NextApiResponse) {
   })
  }
 }
+const SplitUrlIcon=(url:string)=>{
+  const str=url.split('/')
+  return str[0]+'//'+str[2]+'/favicon.ico'
+}
 async function POST(req:NextApiRequest,res:NextApiResponse) {
   const Session=await getServerSession(req,res,authOptions)
   const {title,ID,image,url,description}=await JSON.parse(req.body)
@@ -30,7 +34,7 @@ async function POST(req:NextApiRequest,res:NextApiResponse) {
       data:{
         LinkCardGatherID:ID,
         title:title,
-        image,
+        image:image??SplitUrlIcon(url),
         url,
         createNameRole:Session.user.name!,
         description:description??'',

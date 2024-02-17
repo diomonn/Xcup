@@ -11,7 +11,7 @@ export default function Home() {
   }else {
     
    return (
-     <Listcard bol={true} />
+     <Listcard bol={false} />
     )
   }
 }
