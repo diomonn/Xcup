@@ -82,10 +82,10 @@ export default function Home() {
 
   useEffect(()=>{
     settitle([{
-      msg:LinkCardGather?.title??'',
+      msg:LinkCardGather?.title!,
       name:'标题'
     },{
-      msg:LinkCardGather?.description??'',
+      msg:LinkCardGather?.description!,
       name:'详情'
     }])    
     
