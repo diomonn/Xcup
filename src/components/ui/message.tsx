@@ -1,5 +1,5 @@
 'use client'
-import { message } from '@prisma/client'
+// import { message } from '@prisma/client'
 import {BellIcon,PersonIcon} from '@radix-ui/react-icons'
 import {HoverCard} from '@radix-ui/themes'
 import {useRequest} from 'ahooks'
@@ -41,7 +41,7 @@ async function Yeseva_One(projectId:string,receiverId:string,LinkCardGather:stri
    
 }
 export default function Message(){
-  const [res,Setmessage]= useState<message[]>([])
+  const [res,Setmessage]= useState<any[]>([])
   const {loading,error,data}=useRequest(GET,{
     onSuccess:(data)=>{
         console.log(data);
@@ -69,7 +69,7 @@ export default function Message(){
  }
   </div></HoverCardEM>
 }
-const HoverCardEM=({children,Messagelist,SetR}:{children:React.ReactNode,Messagelist:message[],SetR:Function})=>{
+const HoverCardEM=({children,Messagelist,SetR}:{children:React.ReactNode,Messagelist:any[],SetR:Function})=>{
  return  <HoverCard.Root > 
     <HoverCard.Trigger >
       {children}
