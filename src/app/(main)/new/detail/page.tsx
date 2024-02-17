@@ -13,6 +13,7 @@ import Toast from '@/components/ui/Toast'
 import { Link, Msgtitle } from '../../../../../type'
 import {  useSession } from 'next-auth/react'
 interface LinkCardGather extends L{
+  description:string,
   userTeaam:{
     user:{
       image:string,
