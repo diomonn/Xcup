@@ -10,7 +10,6 @@ async function getForum(url:string) {
       const res = await fetch(url).then(res=>res.text())
       
       const $ = cheerio.load(res);
-      return isnull($('meta[name=description]').attr('content'))??isnull($('meta[property=og:description]').attr('content'))??$('meta[property=twitter:description]').attr('content')??'11'
       return {
         title:isnull($('title').text())??isnull($('meta[property=twitter:title]').attr('content'))??isnull($('meta[property=og:title]').attr('content')),     
         description:isnull($('meta[name=description]').attr('content'))??isnull($('meta[property=og:description]').attr('content'))??$('meta[property=twitter:description]').attr('content'),
