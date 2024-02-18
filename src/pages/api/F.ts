@@ -12,7 +12,7 @@ function  isnull(str:string|undefined) {
 
 
 
- async function getForum(url:string) {
+async function getForum(url:string) {
   try {
       const res = await Axios.get(
           url,{
@@ -40,8 +40,6 @@ const $ = cheerio.load(res.data);
 
 export default async function A(req:NextApiRequest,res:NextApiResponse){
   const {url}=await JSON.parse(req.body) 
-  
-  
  const a=await  getForum(url)
  if (a) {
  res.status(200).json(a)
