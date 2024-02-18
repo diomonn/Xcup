@@ -16,7 +16,7 @@ const Userinfo=()=>{
     return <div className='flex gap-2 md:gap-5  items-center'>
     {session?<Message></Message>:null}
     <Darkmode></Darkmode>
-    <Link href={'/auth/login'}>登录</Link>
+    <Link href={'api/auth/signin'}>登录</Link>
     </div>
     
     

@@ -62,9 +62,6 @@ async function POST(req:NextApiRequest,res:NextApiResponse) {
 async function DELETE(req:NextApiRequest,res:NextApiResponse) {
   const [Session]=await authID(req,res)
   const {title,id,UserId}=await JSON.parse(req.body)
-  console.log(Session);
-
-  
   if (Session&&Session.user.id===UserId) {
     await deletelinkcard(id)
    await prisma.linkCardGather.delete({
@@ -74,8 +71,6 @@ async function DELETE(req:NextApiRequest,res:NextApiResponse) {
        id:id,
      },
    }).then(msg=>{
-    console.log(msg);
-    
     res.status(200).json({
       ok:1,
       msg:"成功删除"
@@ -95,7 +90,6 @@ async function name(req:NextApiRequest,res:NextApiResponse) {
   }else if(req.method==='POST'){
    POST(req,res)
   }else{
-    console.log("1");
     
     DELETE(req,res)
   }

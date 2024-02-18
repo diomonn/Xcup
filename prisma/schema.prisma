@@ -22,9 +22,9 @@ model message {
 }
 model UserProject {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete:Cascade)
   userId String @db.ObjectId
-  project LinkCardGather @relation(fields: [projectId], references: [id])
+  project LinkCardGather @relation(fields: [projectId], references: [id], onDelete:Cascade)
   projectId String @db.ObjectId
   // @@id([userId, projectId])
 }
@@ -44,7 +44,7 @@ model LinkCard {
   id          String            @id @default(auto()) @map("_id") @db.ObjectId
   title       String   
   LinkCardGatherID String  @db.ObjectId
-  LinkCardGather   LinkCardGather   @relation(fields: [LinkCardGatherID], references: [id])      
+  LinkCardGather   LinkCardGather   @relation(fields: [LinkCardGatherID], references: [id], onDelete:Cascade)      
   url         String
   description String
   image       String 

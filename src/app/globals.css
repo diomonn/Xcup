@@ -11,7 +11,9 @@
 }
 @layer components {
   .input-form {
-    @apply w-full flex no-underline justify-center rounded-sm text-sm bg-black/30 text-white dark:border-violet-600  outline outline-violet-300   h-10 items-center
+    @apply w-full flex no-underline justify-center rounded-sm text-sm
+     bg-black/30 text-white dark:border-violet-600  outline
+   h-10 items-center
   }
   .but-form{
     @apply p-2 bg-black/90 text-white dark:bg-violet-600 text-ellipsis font-sans rounded-md
