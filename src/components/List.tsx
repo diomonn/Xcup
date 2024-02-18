@@ -10,6 +10,7 @@ import * as React from 'react'
 import { LinkCardGather } from '@prisma/client'
 import classNames from 'classnames'
 import { ScrollArea } from '@radix-ui/themes'
+import { useSession } from 'next-auth/react'
 const post = async (Link: Link, ID: string) => {
   console.log(Link, ID);
   try {
@@ -24,12 +25,15 @@ const post = async (Link: Link, ID: string) => {
   }
 }
 const MenubarItem = ({ link, title }: { link: Link, title: string }) => {
+  const {data:session,status}=useSession()
   const { data, loading, refresh, run } = useRequest(GETNAME, {
     cacheKey: 'cacheKey-demo',
     refreshOnWindowFocus: true,
   });
 
-  if (!data && loading) {
+  if (!session?.user.id&&status==='unauthenticated') {
+    return <Menubar.Item className='MenubarItem' disabled><GlobeIcon />请先登录</Menubar.Item>
+  }else if(!data && loading){
     return <Menubar.Item className='MenubarItem' disabled><GlobeIcon />加载中</Menubar.Item>
   }
   return (
@@ -157,7 +161,7 @@ const Linklist = ({ link, Setlist }: { link: Link[], Setlist: Function }) => {
   const setlist = (Cardid: number) => {
     Setlist(link.filter((i, index) => Cardid !== index))
   }
-  return <div className=' w-full flex justify-center   flex-col p-3 gap-2'>
+  return <div className='   flex justify-center   flex-col p-3 gap-2'>
     {/* <Card title='yi1' description='你好啊' image='https://okami.my.id/wp-content/uploads/2023/06/1LaLaLa1.jpg'
   url='www.baidu.com'  setlist
   ></Card> */}

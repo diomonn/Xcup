@@ -9,7 +9,6 @@ const main= ()=>{
   const [url,seturl]=UseState('')
   const [link,Setlink]=UseState(false)
   const [list,Setlist]=UseState<Link[]>([])
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [open, setOpen] =UseState({
     open:false,
     msg:'',
@@ -52,7 +51,7 @@ const main= ()=>{
  
   
 
-return <div className="w-[100vw] p-2 flex justify-center flex-col items-center  ">
+return <div className=" overflow-x-hidden   p-2 flex justify-center flex-col items-center  ">
 <Toast open={open.open} setOpen={setOpen} type={open.type} msg={open.msg}></Toast>
    <div className="flex justify-center items-center flex-col sm:w-[600px] w-[100vw-20px]">
    <div className="m-2">
@@ -71,7 +70,7 @@ return <div className="w-[100vw] p-2 flex justify-center flex-col items-center  
       dark:placeholder-violet-200
       
      sm:w-80  w-64 border boder-black bg-white rounded-sm " name="" id="" />
-         <button onClick={()=>a(url)} className=" but-form flex items-center text-nowrap text-sm  h-auto">
+         <button onClick={()=>a(url)} disabled={link} className=" but-form flex items-center text-nowrap text-sm  h-auto">
 {!link?'添加链接':'解析中-'}
          </button>
      </div>
