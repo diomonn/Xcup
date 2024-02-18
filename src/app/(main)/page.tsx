@@ -75,7 +75,7 @@ return <div className="w-[100vw] p-2 flex justify-center flex-col items-center  
 {!link?'添加链接':'解析中-'}
          </button>
      </div>
-    {/* <Linklist link={list} Setlist={Setlist} ></Linklist> */}
+    <Linklist link={list} Setlist={Setlist} ></Linklist>
    </div>
    
 </div>
