@@ -10,7 +10,7 @@ const FormDemo = ({buttonmsg}:{buttonmsg:string}) => {
   //注册
   async function submitForm(data: { [k: string]: FormDataEntryValue; }) {
     const {email,password}=data 
-    const response = await fetch('http://localhost:3000/api/auth/signin',{
+    const response = await fetch('api/auth/signin',{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

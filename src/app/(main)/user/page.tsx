@@ -20,7 +20,7 @@ const router=useRouter()
 
 
 const updataUser=async ()=>{
-   await fetch('http://localhost:3000/api/user/updata',{
+   await fetch('api/user/updata',{
           method:"POST",
           body:JSON.stringify({
             id:session?.user.id,
@@ -34,7 +34,7 @@ const updataUser=async ()=>{
     })     
   }
   const deleteUser=async ()=>{
-    await fetch('http://localhost:3000/api/user/delete',{
+    await fetch('api/user/delete',{
       method:"POST",
       body:JSON.stringify({
         id:session?.user.id

@@ -13,7 +13,7 @@ import { ScrollArea } from '@radix-ui/themes'
 const post = async (Link: Link, ID: string) => {
   console.log(Link, ID);
   try {
-    await fetch('http://localhost:3000/api/LinkCard', {
+    await fetch('api/LinkCard', {
       method: 'POST',
       body: JSON.stringify({ ...Link, ID })
     }).then(res => {

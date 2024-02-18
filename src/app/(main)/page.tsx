@@ -17,7 +17,7 @@ const main= ()=>{
   });
   const a=async (e:string)=>{
     Setlink(true)
-      const res= await fetch('http://localhost:3000/api/F',{
+      const res= await fetch('api/F',{
         method:"POST",
         body:JSON.stringify({url:e})
       }).then(res=>{

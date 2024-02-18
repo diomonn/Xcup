@@ -42,7 +42,7 @@ export const LinklistCard=({msg}:{msg:LinkCardGather})=>{
 const COM=({bol=true}:{bol:boolean})=>{
   const [LinkListCardS,SetlinkCard]=React.useState<LinkCardGather[]>([])
   const PostLinkCard=async ()=>{
-     const data=  await fetch(`http://localhost:3000/api/${bol?'LinkCardGather':'LinkCardGather/getmy'}`,{
+     const data=  await fetch(`api/${bol?'LinkCardGather':'LinkCardGather/getmy'}`,{
       method:'GET'
     }).then(res=>{
       return res.json()
@@ -60,10 +60,12 @@ const COM=({bol=true}:{bol:boolean})=>{
   })
  return  <div>
         <div className="dark:text-white p-10 pb-3 pt-3 ">
-           <h1 className={Rubik.className}>发现新的宝藏连接</h1>
+           <h1 className={Rubik.className}>
+            {bol?'发现新的宝藏连接':'我的链接和受邀的链接'}
+           </h1>
            <h3 className=" text-sm text-gray-600" > 
-           这里是全体用户们公开的宝藏 合集 
-           </h3>
+           {bol?'这里是全体用户们公开的宝藏' :
+           '我的链接可以直接修改,受邀链接只可以通过首页单次添加,我会在后续进行优化'}          </h3>
         </div>
  <div className="flex 
   items-center md:items-start  md:justify-around flex-col

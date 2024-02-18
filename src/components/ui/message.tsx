@@ -5,14 +5,14 @@ import {HoverCard} from '@radix-ui/themes'
 import {useRequest} from 'ahooks'
 import React, { useState } from 'react'
 async function GET() {
-  const data =  await fetch('http://localhost:3000/api/Spenmsg/Get').then(res=>{
+  const data =  await fetch('api/Spenmsg/Get').then(res=>{
     return res.json()
   })
 
 return data
 }
 async function Deletemessage(id:string) {
-  const data =  await fetch('http://localhost:3000/api/Spenmsg/delete',{
+  const data =  await fetch('api/Spenmsg/delete',{
     method:'delete',
     body:JSON.stringify({id})
   }).then(res=>{
@@ -23,7 +23,7 @@ return data
 }
 async function Yeseva_One(projectId:string,receiverId:string,LinkCardGather:string,fn:Function) {
   // projectId,receiverId,LinkCardGather
-  const data =  await fetch('http://localhost:3000/api/Spenmsg/Yeseva_One',{
+  const data =  await fetch('api/Spenmsg/Yeseva_One',{
     method:"POST",
     body:JSON.stringify({
       projectId,

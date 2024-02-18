@@ -60,7 +60,7 @@ export default function Home() {
   }])
   const spenmsg=async (a:Msgtitle[])=>{
     setspen(a)
-    return await fetch(`http://localhost:3000/api/Spenmsg/post`,{
+    return await fetch(`/api/Spenmsg/post`,{
       method:"POST",
       body:JSON.stringify({
         receiverId:spen[0].msg,
@@ -93,14 +93,14 @@ export default function Home() {
   },[LinkCardGather])
   
 const GETlink=async ():Promise<LinkCardGather>=>{
-  return await fetch(`http://localhost:3000/api/LinkCardGather/where/${ID}`,{
+  return await fetch(`/api/LinkCardGather/where/${ID}`,{
       method:"GET",
     }).then(res=>{
       return res.json()
     })
 }
 const User=async (ID:string)=>{
-  const user= await fetch(`http://localhost:3000/api/user/where/${ID}`,{
+  const user= await fetch(`/api/user/where/${ID}`,{
       method:"GET",
     }).then(res=>{
       return res.json()
@@ -125,7 +125,7 @@ const {loading,error,data}=useRequest(GETlink,{
   }
  })
 const updata=async ()=>{
-    return await fetch(`http://localhost:3000/api/LinkCardGather/updata`,{
+    return await fetch(`/api/LinkCardGather/updata`,{
       method:'POST',
       body:JSON.stringify({
           id:LinkCardGather?.id!,
@@ -150,7 +150,7 @@ const updata=async ()=>{
 
   
 const dlete=async ()=>{
-  return await fetch(`http://localhost:3000/api/LinkCardGather`,{
+  return await fetch(`/api/LinkCardGather`,{
       method:'delete',
       body:JSON.stringify({
         UserId:LinkCardGather?.userId,
@@ -170,7 +170,7 @@ const dlete=async ()=>{
 }
   
 const a=async (e:string)=>{
-    const res= await fetch('http://localhost:3000/api/F',{
+    const res= await fetch('/api/F',{
       method:"POST",
       body:JSON.stringify({url:e})
     }).then(res=>{
@@ -203,8 +203,6 @@ const a=async (e:string)=>{
     }
 
 }
-
- 
   return (
     <div className='px-8'>
       <Toast msg={open.msg} open={open.open} type={open.type} setOpen={Setopentime}></Toast>
