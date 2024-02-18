@@ -12,6 +12,7 @@ import  Dalog from '@/components/ui/Dalog'
 import Toast from '@/components/ui/Toast'
 import { Link, Msgtitle } from '../../../../../type'
 import {  useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 interface LinkCardGather extends L{
   description:string,
   userTeaam:{
@@ -28,6 +29,8 @@ const SplitUrlIcon=(urla:string)=>{
 }
 export default function Home() {
   const A=useSearchParams()
+  
+  const router=useRouter()
   const {open,setOpen,Setopentime}=useToast()
   const [openbol,setbol1]=useState(false)
   const ID=A?.get('id')
@@ -148,7 +151,6 @@ const updata=async ()=>{
     })
 }
 
-  
 const dlete=async ()=>{
   return await fetch(`/api/LinkCardGather`,{
       method:'delete',
@@ -159,7 +161,11 @@ const dlete=async ()=>{
       })
     }).then(res=>{
       if (res.ok) {
+
         Setopentime('删除成功',true)
+        setTimeout(() => {
+          router.push('/new')
+        }, 500);
       }else{
         throw new Error('这不是你的数据或者你没有此操作权限');
       }

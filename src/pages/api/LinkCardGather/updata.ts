@@ -5,10 +5,9 @@ import authID from '@/hooks/auth'
 const prisma=new PrismaClient()
 async function GET(req:NextApiRequest,res:NextApiResponse) {
   const [Session]=await authID(req,res)
-  const {id,linkcardMany,title,description,deleteMany,userId,bol}=JSON.parse(req.body)
- console.log(bol);
- 
-  if (Session?.user.id===userId||bol) {
+  const {id,linkcardMany,title,description,deleteMany,userId}=JSON.parse(req.body)
+
+  if (Session?.user.id===userId) {
   const name=await prisma.linkCardGather.update({
   where:{
     id:id
