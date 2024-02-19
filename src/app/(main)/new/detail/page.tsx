@@ -14,6 +14,7 @@ import {motion,AnimatePresence} from 'framer-motion'
 import { Link, Msgtitle } from '../../../../../type'
 import {  useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import {PhRssLight,PhShare} from '@/Svg/index'
 interface LinkCardGather extends L{
   description:string,
   userTeaam:{
@@ -282,10 +283,11 @@ variants={
  (!(session?.user.id===LinkCardGather?.userId!))?<>
  <div className='flex justify-around w-full mt-3'>
 
-<button className='but-form bg-blue-500 hover:shadow-gray-600 dark:hover:shadow-blue-500  shadow-md cursor-pointer' onClick={()=>RSS()}>订阅合集</button>
-<button className='but-form bg-blue-500 hover:shadow-gray-600 dark:hover:shadow-blue-500  shadow-md cursor-pointer' onClick={()=>copy(()=>{
+<button className='flex but-form items-center bg-blue-500 hover:shadow-gray-600 dark:hover:shadow-blue-500  shadow-md cursor-pointer' onClick={()=>RSS()}>
+ <PhRssLight /> 订阅</button>
+<button className='flex but-form items-center bg-blue-500 hover:shadow-gray-600 dark:hover:shadow-blue-500  shadow-md cursor-pointer' onClick={()=>copy(()=>{
   Setopentime('成功复制链接,分享链接即可',true)
-})}>分享链接</button>
+})}><PhShare></PhShare>分享</button>
 </div>
  </>:<>
  <div className="flex gap-1 w-50vw sm:gap-3 justify-center m-5">

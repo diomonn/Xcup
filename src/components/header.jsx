@@ -10,8 +10,8 @@ const header=()=>{
   ">
     <div className='flex gap-2 md:gap-10 items-center  text-nowrap '>
       <Link href={'/'}><Image className='dark:bg-violet-600 p-2 rounded-xl' width={100} height={100} src={'/next.svg'} alt='LOGO'></Image></Link>
-        <Link href='/new' className='w-14   hover:text-yellow-500 hover:dark:text-green-400 transition-colors'>新链接</Link>
-         <Link href='/my' className='w-14   hover:text-yellow-500 hover:dark:text-green-400 transition-colors'>我的链接</Link>
+        <Link href='/new' className='w-14 mr-1   hover:text-yellow-500 hover:dark:text-green-400 transition-colors'>新的卡片</Link>
+         <Link href='/my' className='w-14   hover:text-yellow-500 hover:dark:text-green-400 transition-colors'>我的卡片</Link>
     </div>
       <Userinfo></Userinfo>
   </header>

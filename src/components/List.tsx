@@ -181,19 +181,21 @@ const Linklist = ({ link, Setlist }: { link: Link[], Setlist: Function }) => {
   url='www.baidu.com'  setlist
   ></Card> */}
 
-{ link.map((msg,index)=>(
- <motion.div 
- initial={{ opacity: 0 }}
-variants={
-{open: { opacity: 1, x: 0 },
- closed: { opacity: 0, x: "-100%" },}
-  }
- whileInView={{ opacity: 1 }}
- whileHover={{scale:1.1}}
- layoutId={index.toString()} key={index}  >
-  <Card    title={msg.title} createdAt={msg.createdAt} description={msg.description} image={msg.image} url={msg.url} Setlist={()=>SetSlice(index)}></Card>
-</motion.div>
-))}
+    {link.map((msg, index) => {
+      // eslint-disable-next-line react/jsx-key
+      return  <motion.div 
+      initial={{ opacity: 0 }}
+     variants={
+     {open: { opacity: 1, x: 0 },
+      closed: { opacity: 0, x: "-100%" },}
+       }
+      whileInView={{ opacity: 1 }}
+      whileHover={{scale:1.1}}
+      layoutId={index.toString()} key={index}   >
+       <Card    title={msg.title} createdAt={msg.createdAt} description={msg.description} image={msg.image} url={msg.url} Setlist={()=>setlist(index)}></Card>
+     </motion.div>
+
+    })}
   </div>
 }
 
