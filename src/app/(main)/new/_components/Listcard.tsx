@@ -26,16 +26,13 @@ export const LinklistCard=({msg}:{msg:LinkCardGather})=>{
      }
     </div>
     {
-       msg.LinkCard?.length!>=2?<div className="w-full flex justify-center p-2">
+       msg.LinkCard?.length!>2?<div className="w-full flex justify-center p-2">
       
       <Link href={`/new/detail?id=${msg.id}`}>
       <div  className=" text-sm bg-lime-600  text-white dark:bg-blue-950 rounded-md  p-2">
        更多 {msg.LinkCard?.length}
      </div>
-</Link>
-      
-      
-       </div>:''
+</Link></div>:''
     }
   </div>
 } 
