@@ -11,8 +11,16 @@ const nextConfig = {
   rewrites(){
     return [
       {
-        source: '/new',
-        destination: '/user',
+        source: '/rss',
+        destination: '/feed.xml',
+      },
+      {
+        source: '/rss.xml',
+        destination: '/feed.xml',
+      },
+      {
+        source: '/feed',
+        destination: '/feed.xml',
       },
     ]
   }

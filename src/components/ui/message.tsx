@@ -8,7 +8,6 @@ async function GET() {
   const data =  await fetch('api/Spenmsg/Get').then(res=>{
     return res.json()
   })
-
 return data
 }
 async function Deletemessage(id:string) {

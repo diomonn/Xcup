@@ -11,12 +11,10 @@ const Where=async (req:NextApiRequest,res:NextApiResponse)=>{
     where:{
       id:receiverId
     },
-     select:{
+    select:{
       id:true
-     }
+    }
   })
-  console.log(c);
-  
   if (!c) {
     return res.status(404).json({
       msg:"请确认该用户id是否正确或存在",

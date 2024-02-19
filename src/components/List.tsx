@@ -9,6 +9,7 @@ import DialogDemo from '@/components/ui/Dalog'
 import * as React from 'react'
 import { LinkCardGather } from '@prisma/client'
 import classNames from 'classnames'
+import {motion} from 'framer-motion'
 import { ScrollArea } from '@radix-ui/themes'
 import { useSession } from 'next-auth/react'
 const post = async (Link: Link, ID: string) => {
@@ -90,7 +91,7 @@ const Card = ({ description, image, title, url, Setlist }: LIST) => {
     'backdrop-filter backdrop-blur-md h-40 p-2 backdrop-opacity-5 backdrop-invert bg-white/30 hover:bg-slate-300/30 dark:bg-slate-300/30 dark:hover:bg-slate-50',
     ' justify-between cursor-pointer  flex gap-2', color ? 'border-gray-600' : 'border-green-500 border-2', 'dark:border-violet-600')}>
     <div className=' w-[100px] sm:w-32    rounded-xl overflow-hidden flex
-      justify-center items-center accent-indigo-600  border-r-[0.5px] border-black '>
+      justify-center items-center accent-indigo-600   border-black '>
       {
         image ? <img className='w-full h-full ' src={image} alt="title" /> : <img className='w-[50%] h-[50%]' src={SplitUrlIcon(url)} alt="title" />
       }
@@ -156,6 +157,20 @@ const Card = ({ description, image, title, url, Setlist }: LIST) => {
     </div>
   </div>
 }
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      delayChildren: 0.5
+    }
+  }
+}
+
+const item = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1 }
+}
 const Linklist = ({ link, Setlist }: { link: Link[], Setlist: Function }) => {
 
   const setlist = (Cardid: number) => {
@@ -165,10 +180,20 @@ const Linklist = ({ link, Setlist }: { link: Link[], Setlist: Function }) => {
     {/* <Card title='yi1' description='你好啊' image='https://okami.my.id/wp-content/uploads/2023/06/1LaLaLa1.jpg'
   url='www.baidu.com'  setlist
   ></Card> */}
-    {link.map((msg, index) => {
-      // eslint-disable-next-line react/jsx-key
-      return <Card key={index} title={msg.title} Setlist={() => { setlist(index) }} description={msg.description} image={msg.image} url={msg.url} ></Card>
-    })}
+
+{ link.map((msg,index)=>(
+ <motion.div 
+ initial={{ opacity: 0 }}
+variants={
+{open: { opacity: 1, x: 0 },
+ closed: { opacity: 0, x: "-100%" },}
+  }
+ whileInView={{ opacity: 1 }}
+ whileHover={{scale:1.1}}
+ layoutId={index.toString()} key={index}  >
+  <Card    title={msg.title} createdAt={msg.createdAt} description={msg.description} image={msg.image} url={msg.url} Setlist={()=>SetSlice(index)}></Card>
+</motion.div>
+))}
   </div>
 }
 

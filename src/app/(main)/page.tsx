@@ -1,10 +1,14 @@
 "use client"
-import {  useState as UseState,useEffect as UseEffect, useEffect,} from "react";
-import {Rubik} from '@/style/fonts'
+import {  useState as UseState,useEffect as UseEffect,  useRef as UseRef,} from "react";
+import {Rubik, Zheng} from '@/style/fonts'
 import Linklist from '@/components/List'
 import { signOut } from 'next-auth/react'
 import { Link } from "../../../type";
+import Typed from 'typed.js';
+import {motion} from 'framer-motion'
 import Toast from "@/components/ui/Toast";
+import { ZhiMangXing } from "@/style/fonts";
+import classNames from "classnames";
 const main= ()=>{
   const [url,seturl]=UseState('')
   const [link,Setlink]=UseState(false)
@@ -14,6 +18,7 @@ const main= ()=>{
     msg:'',
     type:true
   });
+  const el=UseRef(null)
   const a=async (e:string)=>{
     Setlink(true)
       const res= await fetch('api/F',{
@@ -48,7 +53,19 @@ const main= ()=>{
       }
 
   }
- 
+
+  UseEffect(() => {
+    const typed = new Typed(el.current, {
+      strings: ['电影','游戏','友链','音乐','书籍','博客'],
+      typeSpeed: 150,
+      loop:true
+      
+    });
+    return () => {
+      typed.destroy();
+    };
+  }, []);
+
   
 
 return <div className=" overflow-x-hidden   p-2 flex justify-center flex-col items-center  ">
@@ -59,9 +76,19 @@ return <div className=" overflow-x-hidden   p-2 flex justify-center flex-col ite
   await signOut({ redirect: true, });
 
       }}>
-        <span className={Rubik.className}>Diamond</span>
+        <span className={Rubik.className} >
+          diamond
+        </span>
       </h1>
      </div>
+     <h1  className={classNames(" font-bold mb-1 text-lg dark:text-violet-600",ZhiMangXing.className)} onClick={async ()=>{
+  await signOut({ redirect: true, });
+
+      }}>
+       分享你喜欢的<span className={classNames(ZhiMangXing.className,' text-green-700 mx-2')} ref={el} >
+          {/* diamond */}
+        </span>
+      </h1>
      <div className="flex gap-1 w-50vw sm:gap-3">
      <input type="text" placeholder="https://github.com/" value={url}
      onChange={(e)=>{seturl(e.target.value)} 
@@ -70,9 +97,13 @@ return <div className=" overflow-x-hidden   p-2 flex justify-center flex-col ite
       dark:placeholder-violet-200
       
      sm:w-80  w-64 border boder-black bg-white rounded-sm " name="" id="" />
-         <button onClick={()=>a(url)} disabled={link} className=" but-form flex items-center text-nowrap text-sm  h-auto">
+      <motion.div 
+         whileHover={{scale:1.1}}
+      >
+      <button onClick={()=>a(url)} disabled={link} className=" cursor-pointer but-form flex items-center text-nowrap text-sm  h-auto">
 {!link?'添加链接':'解析中-'}
-         </button>
+         </button>  
+      </motion.div>   
      </div>
     <Linklist link={list} Setlist={Setlist} ></Linklist>
    </div>

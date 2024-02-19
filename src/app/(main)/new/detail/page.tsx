@@ -10,6 +10,7 @@ import { LinkCardGather as L, User } from '@prisma/client'
 import Avatar from '@/components/ui/avatar'
 import  Dalog from '@/components/ui/Dalog'
 import Toast from '@/components/ui/Toast'
+import {motion,AnimatePresence} from 'framer-motion'
 import { Link, Msgtitle } from '../../../../../type'
 import {  useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
@@ -29,10 +30,8 @@ const SplitUrlIcon=(urla:string)=>{
 }
 export default function Home() {
   const A=useSearchParams()
-  
   const router=useRouter()
   const {open,setOpen,Setopentime}=useToast()
-  const [openbol,setbol1]=useState(false)
   const ID=A?.get('id')
   const [LinkCardGather,SetlinkCardGather]=React.useState<LinkCardGather>()
   const [LinkListCardS,SetlinkCard]=React.useState<Link[]>([])
@@ -135,11 +134,13 @@ const updata=async ()=>{
          title:newtitle[0].msg,
          description:newtitle[1].msg,
          userId:LinkCardGather?.userId,
-         deleteMany:deleteMany.current,
-         linkcardMany:linkcardMany.current,
+         deleteMany:deleteMany.current??[],
+         linkcardMany:linkcardMany.current??[],
          
       })
     }).then(res=>{
+     console.log(res);
+     
       if (res.ok) {
         Setopentime('保存成功',true)
       }else{
@@ -209,19 +210,50 @@ const a=async (e:string)=>{
     }
 
 }
+const container = {
+  hidden: { opacity: 0, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2
+    }
+  }
+} 
+  
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1
+  }
+}
+const [selectedId, setSelectedId] = useState<any>(null)
+function RSS(): void {
+   if (LinkCardGather?.id) {
+    router.push(`/api/feed/${LinkCardGather?.id}`)
+   }else{
+    setOpen({
+      msg:'等待加载后重试',
+      type:false,
+      open:true
+    })
+   }
+  }
+
   return (
     <div className='px-8'>
       <Toast msg={open.msg} open={open.open} type={open.type} setOpen={Setopentime}></Toast>
       { loading&&user?.id?'loding': <div className='flex  items-center flex-col dark:text-white'>
    <div className='w-full sm:w-[560px]  '>
-     <div className='flex m-2 text-xl font-bold items-center text-ellipsis justify-between'>
-     <h1>{newtitle[0].msg}</h1> 
-     <Avatar src={user?.image!}></Avatar>
-     {/* <h1> */}
-     <Dalog SetTitle={settitle} title={newtitle}    msg='更改你的信息,使他一目了然吧!' content='更改信息'>
-     <GearIcon onClick={()=>setbol1(true)} className='text-2xl w-6 h-6 cursor-pointer  hover:text-violet-600 hover:rotate-180 transition-all duration-200 '></GearIcon>  
+     <div className='flex  m-2 text-xl font-bold items-center text-ellipsis justify-between'>
+     <h1 className='flex gap-2  items-center'>{newtitle[0].msg}-<Avatar  src={user?.image!}></Avatar></h1> 
+     <div className='flex-2'>
+     <Dalog  SetTitle={settitle} title={newtitle}    msg='更改你的信息,使他一目了然吧!' content='更改信息'>
+     <GearIcon  className='text-2xl w-6 h-6 cursor-pointer  hover:text-violet-600 hover:rotate-180 transition-all duration-200 '></GearIcon>  
 </Dalog>
-      {/* </h1>  */}
+     </div>
      </div> 
    <div>
    <div className=' text-center text-gray-600 m-1'>{newtitle[1].msg}</div>
@@ -229,13 +261,33 @@ const a=async (e:string)=>{
 items-center md:items-start  md:justify-around flex-col
 md:flex-row   flex-wrap  gap-3  ">
 
-{ LinkListCardS.map((msg,index)=>{
-return <Card key={index}  title={msg.title} createdAt={msg.createdAt} description={msg.description} image={msg.image} url={msg.url} Setlist={()=>SetSlice(index)}></Card>
-})
-}
+{ LinkListCardS.map((msg,index)=>(
+ <motion.div 
+ initial={{ opacity: 0 }}
+variants={
+{open: { opacity: 1, x: 0 },
+ closed: { opacity: 0, x: "-100%" },}
+  }
+ whileInView={{ opacity: 1 }}
+ whileHover={{scale:1.1}}
+ layoutId={index.toString()} key={index} onClick={() => setSelectedId(index)}  >
+  <Card    title={msg.title} createdAt={msg.createdAt} description={msg.description} image={msg.image} url={msg.url} Setlist={()=>SetSlice(index)}></Card>
+</motion.div>
+))}
+
+
+
 </div>
 {
- (session?.user.id===LinkCardGather?.userId!)?<>
+ (!(session?.user.id===LinkCardGather?.userId!))?<>
+ <div className='flex justify-around w-full mt-3'>
+
+<button className='but-form bg-blue-500 hover:shadow-gray-600 dark:hover:shadow-blue-500  shadow-md cursor-pointer' onClick={()=>RSS()}>订阅合集</button>
+<button className='but-form bg-blue-500 hover:shadow-gray-600 dark:hover:shadow-blue-500  shadow-md cursor-pointer' onClick={()=>copy(()=>{
+  Setopentime('成功复制链接,分享链接即可',true)
+})}>分享链接</button>
+</div>
+ </>:<>
  <div className="flex gap-1 w-50vw sm:gap-3 justify-center m-5">
  <input type="text" placeholder="https://github.com/" value={url}
  onChange={(e)=>{seturl(e.target.value)} 
@@ -246,22 +298,13 @@ return <Card key={index}  title={msg.title} createdAt={msg.createdAt} descriptio
  sm:w-80  w-64 border boder-black bg-white rounded-sm " name="" id="" />
      <button onClick={()=>a(url)} className=" but-form flex items-center text-nowrap text-sm  h-auto">
 {/* {!link?'添加链接':'解析中-'} */}
-spen
+ 添加
      </button>
  </div>
 <div className=' text-center text-gray-600 m-1'>邀请<Dalog title={spen} SetTitle={spenmsg} msg='输入你要邀请的共创者ID' content='邀请用户' ><button className=' text-blue-600 text-ellipsis m-1 underline'> 同好者 </button></Dalog> 共同参与完善这个合集</div>
 <div className='flex justify-around w-full mt-3'>
 <button className='but-form bg-blue-500 hover:shadow-gray-600 dark:hover:shadow-blue-500  shadow-md cursor-pointer' onClick={()=>updata()}>保存修改</button>
 <button className='but-form bg-blue-500 hover:shadow-gray-600 dark:hover:shadow-blue-500  shadow-md cursor-pointer' onClick={()=>dlete()}>删除合集</button>
-</div>
- </>
- :<>
- <div className='flex justify-around w-full mt-3'>
-
-<button className='but-form bg-blue-500 hover:shadow-gray-600 dark:hover:shadow-blue-500  shadow-md cursor-pointer' onClick={()=>updata()}>订阅合集</button>
-<button className='but-form bg-blue-500 hover:shadow-gray-600 dark:hover:shadow-blue-500  shadow-md cursor-pointer' onClick={()=>copy(()=>{
-  Setopentime('成功复制链接,分享链接即可',true)
-})}>分享链接</button>
 </div>
  </>
 }

@@ -6,7 +6,7 @@ const prisma=new PrismaClient()
 async function GET(req:NextApiRequest,res:NextApiResponse) {
   const [Session]=await authID(req,res)
   const {id,linkcardMany,title,description,deleteMany,userId}=JSON.parse(req.body)
-
+console.log(Session?.user.id,userId);
   if (Session?.user.id===userId) {
   const name=await prisma.linkCardGather.update({
   where:{

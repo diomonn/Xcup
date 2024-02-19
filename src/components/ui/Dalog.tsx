@@ -12,121 +12,6 @@ interface Msgtitle {
   name: string,
   open?: boolean
 }
-
-// const DialogDemo = ({ content, title, SetTitle, msg}: Props) => {
-//   const [newtitle, Setnew] = React.useState<Msgtitle[]>(title)
-//   const Setnewmsg = (msg: string | boolean, i: number) => {
-//     Setnew(
-//       newtitle.map((el, index) => {
-//         if (i === index && typeof el.msg === 'string') {
-//           el.msg = msg
-//         } else if (i === index && typeof el.open === 'boolean') {
-//           el.open = !el.open
-//         }
-//         return el
-//       })
-//     )
-//   }
-//   return <Dialog.Root >
-//     <Dialog.Trigger asChild >
-//       <button className=" text-green-500  ">编辑 {content}</button>
-//     </Dialog.Trigger>
-//     <Dialog.Portal>
-//       <Dialog.Overlay className="DialogOverlay" />
-//       <Dialog.Content className="DialogContent">
-//         <Dialog.Title className="DialogTitle">{content}</Dialog.Title>
-//         <Dialog.Description className="DialogDescription">
-//           {msg}
-//         </Dialog.Description>
-//         {
-//           newtitle.map((el: Msgtitle, index: number) => {
-//             return <fieldset className="Fieldset" key={index}>
-//               <label className="Label" htmlFor={index.toString()}> {newtitle[index].name} </label>
-//               {typeof el.msg === 'boolean' ? <Switch.Root className="SwitchRoot" checked={el.open}
-//                 onCheckedChange={e => Setnewmsg(e.valueOf(), index)}
-//                 id={index.toString()}>
-//                 <Switch.Thumb className="SwitchThumb" />
-//               </Switch.Root> :
-//                 <input className="Input" id={index.toString()} defaultValue="title" value={el.msg} onChange={e => {
-//                   Setnewmsg(e.target.value, index)
-//                 }} />}
-
-//             </fieldset>
-//           })
-//         }
-//         <div style={{ display: 'flex', marginTop: 25, justifyContent: 'flex-end' }}>
-//           <Dialog.Close asChild>
-//             <button className="Button green" onClick={() => { SetTitle(newtitle) }}>保存修改</button>
-//           </Dialog.Close>
-//         </div>
-//         <Dialog.Close asChild >
-//           <button className="IconButton" aria-label="Close" onClick={(e)=>{
-            
-// e.defaultPrevented
-//           }}>
-//             <Cross2Icon />
-//           </button>
-//         </Dialog.Close>
-//       </Dialog.Content>
-//     </Dialog.Portal>
-//   </Dialog.Root>
-// };
-// export const DialogDemo2 = ({ content, title, SetTitle, msg,open ,setopen}: Props) => {
-//   const [newtitle, Setnew] = React.useState<Msgtitle[]>(title)
-//   const Setnewmsg = (msg: string | boolean, i: number) => {
-//     Setnew(
-//       newtitle.map((el, index) => {
-//         if (i === index && typeof el.msg === 'string') {
-//           el.msg = msg
-//         } else if (i === index && typeof el.open === 'boolean') {
-//           el.open = !el.open
-//         }
-//         return el
-//       })
-//     )
-//   }
-//   return <Dialog.Root open={open} onOpenChange={e=>{setopen(false);
-//   }}>
-//     <Dialog.Portal>
-//       <Dialog.Overlay className="DialogOverlay" />
-//       <Dialog.Content className="DialogContent">
-//         <Dialog.Title className="DialogTitle">{content}</Dialog.Title>
-//         <Dialog.Description className="DialogDescription">
-//           {msg}
-//         </Dialog.Description>
-//         {
-//           newtitle.map((el: Msgtitle, index: number) => {
-//             return <fieldset className="Fieldset" key={index}>
-//               <label className="Label" htmlFor={index.toString()}> {newtitle[index].name} </label>
-//               {typeof el.msg === 'boolean' ? <Switch.Root className="SwitchRoot" checked={el.open}
-//                 onCheckedChange={e => Setnewmsg(e.valueOf(), index)}
-//                 id={index.toString()}>
-//                 <Switch.Thumb className="SwitchThumb" />
-//               </Switch.Root> :
-//                 <input className="Input" id={index.toString()} defaultValue="title" value={el.msg} onChange={e => {
-//                   Setnewmsg(e.target.value, index)
-//                 }} />}
-
-//             </fieldset>
-//           })
-//         }
-//         <div style={{ display: 'flex', marginTop: 25, justifyContent: 'flex-end' }}>
-//           <Dialog.Close asChild>
-//             <button className="Button green" onClick={() => { SetTitle(newtitle) }}>保存修改</button>
-//           </Dialog.Close>
-//         </div>
-//         <Dialog.Close asChild >
-//           <button className="IconButton" aria-label="Close" onClick={(e)=>{
-//             setopen(false)
-// // e.defaultPrevented
-//           }}>
-//             <Cross2Icon />
-//           </button>
-//         </Dialog.Close>
-//       </Dialog.Content>
-//     </Dialog.Portal>
-//   </Dialog.Root>
-// };
 const DialogDemo=({children,title,SetTitle,content,msg}:{children: React.ReactNode,title:Msgtitle[],SetTitle:any,content:string,msg:string})=>{
   const [newtitle, Setnew] = React.useState<Msgtitle[]>(title)
   const Setnewmsg = (msg: string | boolean, i: number) => {
@@ -167,7 +52,6 @@ const DialogDemo=({children,title,SetTitle,content,msg}:{children: React.ReactNo
           {el.name}
         </div>
         <TextField.Input
-          // defaultValue={el.msg}
           onChange={e=>{Setnewmsg(e.target.value,index)}}
           placeholder={el.msg}
         />
@@ -184,7 +68,7 @@ const DialogDemo=({children,title,SetTitle,content,msg}:{children: React.ReactNo
         </Button>
       </Dialog.Close>
       <Dialog.Close>
-        <Button onClick={() => { SetTitle(newtitle) }}>修改</Button>
+        <Button className='text-black dark:text-red-50' onClick={() => { SetTitle(newtitle) }}>确认</Button>
       </Dialog.Close>
     </Flex>
   </Dialog.Content>

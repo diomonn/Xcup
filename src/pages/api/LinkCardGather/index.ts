@@ -39,6 +39,8 @@ async function GET(req:NextApiRequest,res:NextApiResponse) {
 async function POST(req:NextApiRequest,res:NextApiResponse) {
   const [Session]=await authID(req,res)
   const {title,open,description}=await JSON.parse(req.body)
+  console.log(Session?.user);
+  
   if (Session) {
     await prisma.linkCardGather.create({
       data:{
