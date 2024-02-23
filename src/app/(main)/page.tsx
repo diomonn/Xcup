@@ -93,9 +93,6 @@ return <div className=" overflow-x-hidden   p-2 flex justify-center flex-col ite
           {/* diamond */}
         </span>
       </h1>
-   
-    
-    
      <div className="flex gap-1 w-50vw sm:gap-3">
      <input type="text" placeholder="https://github.com/" value={url}
      onChange={(e)=>{seturl(e.target.value)} 
