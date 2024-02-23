@@ -39,10 +39,8 @@ export default function Home() {
   const [user,setuser]=useState<User>()
   const [url,seturl]=useState('')
   const deleteMany=useRef<string[]>([])
-  const [Setting,setbol]=useState(true)
   const linkcardMany=useRef<any[]>([])
-  const { data: session,update,status }=useSession()
-
+  const { data: session, }=useSession()
   const SetSlice=(index:number)=>{
     if (LinkListCardS[index].id) {
       console.log(LinkListCardS[index]);
@@ -83,7 +81,6 @@ export default function Home() {
       Setopentime('发送失败清重试',false)      
     })
   }
-
   useEffect(()=>{
     settitle([{
       msg:LinkCardGather?.title!,
@@ -108,8 +105,7 @@ const User=async (ID:string)=>{
     }).then(res=>{
       return res.json()
     })
-    console.log(user);
-    
+
   setuser(user)
 }
 const {loading,error,data}=useRequest(GETlink,{
@@ -275,12 +271,9 @@ variants={
   <Card    title={msg.title} createdAt={msg.createdAt} description={msg.description} image={msg.image} url={msg.url} Setlist={()=>SetSlice(index)}></Card>
 </motion.div>
 ))}
-
-
-
 </div>
 {
- (!(session?.user.id===LinkCardGather?.userId!))?<>
+ (!(LinkCardGather&&session?.user.id===LinkCardGather?.userId))?<>
  <div className='flex justify-around w-full mt-3'>
 
 <button className='flex but-form items-center bg-blue-500 hover:shadow-gray-600 dark:hover:shadow-blue-500  shadow-md cursor-pointer' onClick={()=>RSS()}>

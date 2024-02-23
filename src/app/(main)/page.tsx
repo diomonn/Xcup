@@ -1,18 +1,21 @@
 "use client"
-import {  useState as UseState,useEffect as UseEffect,  useRef as UseRef,} from "react";
+import {  useState as UseState,useEffect as UseEffect,  useRef as UseRef,useContext as UseContext} from "react";
 import {Rubik, Zheng} from '@/style/fonts'
 import Linklist from '@/components/List'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession as Usession } from 'next-auth/react'
 import { Link } from "../../../type";
 import Typed from 'typed.js';
 import {motion} from 'framer-motion'
 import Toast from "@/components/ui/Toast";
 import { ZhiMangXing } from "@/style/fonts";
 import classNames from "classnames";
+import LinkLink from "next/link";
 const main= ()=>{
   const [url,seturl]=UseState('')
   const [link,Setlink]=UseState(false)
+  const {data}=Usession()
   const [list,Setlist]=UseState<Link[]>([])
+  
   const [open, setOpen] =UseState({
     open:false,
     msg:'',
@@ -55,6 +58,7 @@ const main= ()=>{
   }
 
   UseEffect(() => {
+
     const typed = new Typed(el.current, {
       strings: ['电影','游戏','友链','音乐','书籍','博客'],
       typeSpeed: 150,
@@ -89,6 +93,9 @@ return <div className=" overflow-x-hidden   p-2 flex justify-center flex-col ite
           {/* diamond */}
         </span>
       </h1>
+   
+    
+    
      <div className="flex gap-1 w-50vw sm:gap-3">
      <input type="text" placeholder="https://github.com/" value={url}
      onChange={(e)=>{seturl(e.target.value)} 
@@ -105,6 +112,12 @@ return <div className=" overflow-x-hidden   p-2 flex justify-center flex-col ite
          </button>  
       </motion.div>   
      </div>
+     { 
+     data?.user?null:<p className="text-xs mt-2  dark:text-violet-600">
+      <LinkLink className="text-red-500" href={'api/auth/signin'}>登录</LinkLink> 
+      用来保存和浏览,我们会一起分享<LinkLink href={'about'} className="mx-3 text-white">ABOUT THIS</LinkLink>
+     </p>
+     }
     <Linklist link={list} Setlist={Setlist} ></Linklist>
    </div>
    

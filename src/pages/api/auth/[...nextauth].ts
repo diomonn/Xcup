@@ -2,54 +2,18 @@ import NextAuth, { NextAuthOptions, Session } from "next-auth"
 import GithubProvider from 'next-auth/providers/github';
 import EmailProvider from 'next-auth/providers/email';
 import {PrismaAdapter} from '@auth/prisma-adapter'
-import CredentialsProvider from 'next-auth/providers/credentials'
+// import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaClient } from '@prisma/client';
 import type { Adapter, AdapterUser } from 'next-auth/adapters';
 import { JWT } from "next-auth/jwt";
-
 const Prisma=new PrismaClient()
-// const adapter = PrismaAdapter(Prisma) as Adapter
-  // Add your custom methods here
 
 export const authOptions: NextAuthOptions = {
   adapter:PrismaAdapter(Prisma) as Adapter,
   session:{
     strategy:"jwt"
   },
-  pages:{
- 
-  },
-  events:{
-  
-    signIn: async (message)=>{
-console.log(message.profile);
-console.log(message);
-message.user.name='1212'
-message.user.image='https://okami.my.id/wp-content/uploads/2023/06/27LaLaLa1.jpg'
-    },
-    createUser:async (message)=>{   
-      console.log(message.user);
-
-    }
-  },
   callbacks:{
-    
-    signIn:async ({ user, account, profile, email, credentials })=>{
-      console.log(user, account, profile, email, credentials);
-      // const { email } = profile;
-        // Pre-fill additional user information here
-        // const usera = await Prisma.user.create({
-        //   data: {
-        //     email:email,
-        //     name: 'Default Name', // Replace with actual name if available
-        //     image: 'https://example.com/default-image.jpg', // Replace with actual image URL if available
-        //     // Add any other fields you want to pre-fill
-        //   },
-        // });
-        // return usera;
-      return true
-    },
-    
     jwt:async ({token,account})=>{
       //  return token
        if (account?.accessToken) {
@@ -58,7 +22,7 @@ message.user.image='https://okami.my.id/wp-content/uploads/2023/06/27LaLaLa1.jpg
       }
       return Promise.resolve(token);
     },
-    session: async ({ session, token }) => {
+    session: async ({ session, token ,user}) => {
       session.user.id = token.sub!;
       return Promise.resolve(session);
     },
@@ -105,11 +69,6 @@ message.user.image='https://okami.my.id/wp-content/uploads/2023/06/27LaLaLa1.jpg
     EmailProvider({
       server: process.env.EMAIL_SERVER,
       from: process.env.EMAIL_FROM,
-      
-      async generateVerificationToken() {
-        return "ABC123"
-      },
-      
       normalizeIdentifier(identifier: string): string {
         let [local, domain] = identifier.toLowerCase().trim().split("@")
    
