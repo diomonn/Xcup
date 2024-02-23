@@ -272,8 +272,9 @@ variants={
 </motion.div>
 ))}
 </div>
-{
- (!(LinkCardGather&&session?.user.id!==LinkCardGather?.userId))?<>
+{ 
+
+ (LinkCardGather&&session?.user.id!==LinkCardGather?.userId)?<>
  <div className='flex justify-around w-full mt-3'>
 
 <button className='flex but-form items-center bg-blue-500 hover:shadow-gray-600 dark:hover:shadow-blue-500  shadow-md cursor-pointer' onClick={()=>RSS()}>
