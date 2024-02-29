@@ -19,7 +19,7 @@ const Card= ({description,image,title,url,Setlist}:LIST)=>{
     return str[0]+'//'+str[2]+'/favicon.ico'
   }
   return <div className={classNames('w-full border-[0.5px]  rounded-xl' ,
-  'backdrop-filter backdrop-blur-md h-40 p-2 backdrop-opacity-5 backdrop-invert bg-white/30 hover:bg-slate-300/30 dark:bg-slate-300/30 dark:hover:bg-slate-50' ,
+  'backdrop-filter backdrop-blur-md h-40 p-2 backdrop-opacity-5 backdrop-invert bg-white/30 hover:bg-slate-300/30 dark:bg-slate-300/30 dark:hover:bg-slate-300' ,
   ' justify-between cursor-pointer  flex gap-2', 'border-green-500 border-2','dark:border-violet-600')}>   
     
     <div className=' w-[100px] sm:w-32    rounded-xl overflow-hidden flex

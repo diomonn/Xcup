@@ -14,17 +14,21 @@ export const authOptions: NextAuthOptions = {
     strategy:"jwt"
   },
   callbacks:{
-    jwt:async ({token,account})=>{
+    jwt:async ({token,account,session,trigger})=>{
       //  return token
+      if (trigger === "update" && session?.name) {
+        // Note, that `session` can be any arbitrary object, remember to validate it!
+        token.name = session.name
+        token.picture = session.image
+      }
        if (account?.accessToken) {
-        
         token.accessToken = account.accessToken;
       }
-      return Promise.resolve(token);
+      return token
     },
     session: async ({ session, token ,user}) => {
       session.user.id = token.sub!;
-      return Promise.resolve(session);
+      return session
     },
   },
   providers: [

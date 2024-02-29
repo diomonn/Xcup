@@ -5,9 +5,12 @@ import {Zheng,roboto_mono} from '@/style/fonts'
 import classNames from 'classnames'
 import {Getday} from '@/hooks/day'
 import {Pencil2Icon} from '@radix-ui/react-icons'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-
+const reloadSession = () => {
+  const event = new Event("visibilitychange");
+  document.dispatchEvent(event);
+};
 export default function Userpage() {
   const { data: session,update,status }=Auth.useSession()
   const [data,setdata]=useState({
@@ -17,7 +20,15 @@ export default function Userpage() {
 
   const [open,setopen]=useState(false)
 const router=useRouter()
-
+useEffect(() => {
+  // TIP: You can also use `navigator.onLine` and some extra event handlers
+  // to check if the user is online and only update the session if they are.
+  // https://developer.mozilla.org/en-US/docs/Web/API/Navigator/onLine
+  const interval = setInterval(() => update(), 1000 * 60 * 60)
+  console.log(21);
+  
+  return () => clearInterval(interval)
+}, [update])
 
 const updataUser=async ()=>{
    await fetch('api/user/updata',{
@@ -50,14 +61,13 @@ const updataUser=async ()=>{
   const Out=()=>{
     Auth.signOut()
     router.replace('/')
-
   }
  return <div className="  flex justify-center items-center">
  <div className=''>
    <div className='flex  relative left-[50%] -translate-x-[50%]  z-50 flex-col items-center border border-blackp  border-b-0 border-r-0  border-l-0 w-[100px] p-3 h-[100px] rounded-tl-[50px]  rounded-tr-[50px]'>
-<Avatar  src={data.image!}></Avatar>
+ <Avatar  src={session?.user.image!}></Avatar>
 
-<h1 className={classNames(Zheng.className,' text-2xl font-bold px-2 bg-blue-300 dark:bg-black dark:text-violet-600')}>{session?.user.name}</h1>
+<h1 className={classNames(Zheng.className,' text-nowrap text-2xl font-bold px-2 bg-blue-300 dark:bg-black dark:text-violet-600')}>{session?.user.name}</h1>
    </div>
    <div className='dark:text-white -z-1 w-[90vw] sm:w-[50vw]  dark:border-violet-600  h-[65vh] transition-all border-2 border-black border-b-0 relative p-4 bottom-7 start-0'>
    <Pencil2Icon className=' absolute  right-3 text-2xl' onClick={()=>setopen(!open)
@@ -71,7 +81,7 @@ const updataUser=async ()=>{
         <label className='flex items-center gap-2'>
         <span className={classNames('w-12 m-1 ',Zheng.className)}>用户名</span>
           {
-            !open?<span className='w-70% overflow-hidden text-sm'>{data.name}</span>:
+            !open?<span className='w-70% overflow-hidden text-sm'>{session?.user.name}</span>:
             <input placeholder={data.name!}
             onChange={(e)=>{
               setdata({
@@ -87,7 +97,7 @@ const updataUser=async ()=>{
         <label className='flex items-center gap-2'>
         <span className={classNames('w-12 m-1 ',Zheng.className)}>头像</span>
           {
-            !open?<span className='w-70% overflow-hidden text-sm'>{data.image}</span>:
+            !open?<span className='w-70% overflow-hidden text-sm'>{session?.user.image}</span>:
             <input 
             onChange={(e)=>{
               setdata({
@@ -99,7 +109,24 @@ const updataUser=async ()=>{
           }
         </label>
       </li>
-      
+    {
+      open?<li className='w-full justify-around border-black border-b-[0.5px] flex gap-10 p-2'>
+          <button className=' bg-black text-white  p-2 px-3 rounded-md ' onClick={()=>setopen(false)}>取消</button>
+          <button className=' bg-black text-white  p-2 px-3 rounded-md ' onClick={async ()=>{
+            
+           await  update({
+              image:data.image,
+              name:data.name
+            }).then(res=>{
+              console.log(res);
+              updataUser()
+            })
+            reloadSession()
+            setopen(false)
+          }}>确认</button>
+           
+      </li>:null
+    }  
   
      </ul>
     <div className='w-full absolute flex bottom-6 justify-around'>

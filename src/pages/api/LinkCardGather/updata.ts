@@ -8,27 +8,46 @@ async function GET(req:NextApiRequest,res:NextApiResponse) {
   const {id,linkcardMany,title,description,deleteMany,userId}=JSON.parse(req.body)
 console.log(Session?.user.id,userId);
   if (Session?.user.id) {
-  const name=await prisma.linkCardGather.update({
-  where:{
-    id:id
-  },
-  data:{
-    title,
-    description,
-    LinkCard:{
-      deleteMany:{
-        id:{
-          in: deleteMany
+  if (linkcardMany.length>0) {
+    const name=await prisma.linkCardGather.update({
+      where:{
+        id:id
+      },
+      data:{
+        title,
+        description,
+        LinkCard:{
+          deleteMany:{
+            id:{
+              in: deleteMany
+            }
+          },
+          createMany:{
+            data:linkcardMany??[]
+          }
         }
       },
-      createMany:{
-        data:linkcardMany
-      }
-    }
-  },
-  
-   })
-    return res.status(200).json(name)
+       })
+        return res.status(200).json(name)
+  }else{
+    const name=await prisma.linkCardGather.update({
+      where:{
+        id:id
+      },
+      data:{
+        title,
+        description,
+        LinkCard:{
+          deleteMany:{
+            id:{
+              in: deleteMany
+            }
+          },
+        }
+      },
+       })
+        return res.status(200).json(name)
+  }
  }else{
   return res.status(404).json({
     msg:"请登录账号",

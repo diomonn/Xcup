@@ -56,9 +56,8 @@ const main= ()=>{
       }
 
   }
-
+  // Typed文字
   UseEffect(() => {
-
     const typed = new Typed(el.current, {
       strings: ['电影','游戏','友链','音乐','书籍','博客'],
       typeSpeed: 150,

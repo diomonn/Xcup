@@ -41,6 +41,7 @@ async function Yeseva_One(projectId:string,receiverId:string,LinkCardGather:stri
 }
 export default function Message(){
   const [res,Setmessage]= useState<any[]>([])
+  const [open,Setopen]= useState<boolean>(false)
   const {loading,error,data}=useRequest(GET,{
     onSuccess:(data)=>{
         console.log(data);
@@ -57,9 +58,9 @@ export default function Message(){
     Setmessage(res.filter((el,i)=>index!==i))
 
    }
-  return <HoverCardEM  SetR={SetR} Messagelist={res}> 
+  return <HoverCardEM  setopen={Setopen} open={open} SetR={SetR} Messagelist={res}> 
     <div className='w-6 h-6 relative rounded-full  hover:text-yellow-500 hover:dark:text-green-400 transition-colors'>
-  <BellIcon className='w-6 h-6'></BellIcon>
+  <BellIcon onClick={()=>{Setopen(!open)}} className='w-6 h-6'></BellIcon>
   {loading}
  {
    !loading?<div className=' absolute border-yellow-500 border-[1px] flex justify-center items-center w-2 h-2 rounded-full    right-0'>
@@ -68,8 +69,8 @@ export default function Message(){
  }
   </div></HoverCardEM>
 }
-const HoverCardEM=({children,Messagelist,SetR}:{children:React.ReactNode,Messagelist:any[],SetR:Function})=>{
- return  <HoverCard.Root > 
+const HoverCardEM=({children,Messagelist,SetR,open,setopen}:{setopen:Function,open:boolean,children:React.ReactNode,Messagelist:any[],SetR:Function})=>{
+ return  <HoverCard.Root open={open} onOpenChange={open=>setopen(open)} > 
     <HoverCard.Trigger >
       {children}
     </HoverCard.Trigger>

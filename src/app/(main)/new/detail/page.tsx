@@ -133,13 +133,11 @@ const updata=async ()=>{
          userId:LinkCardGather?.userId,
          deleteMany:deleteMany.current??[],
          linkcardMany:linkcardMany.current??[],
-         
       })
     }).then(res=>{
-     console.log(res);
-     
       if (res.ok) {
         Setopentime('保存成功',true)
+        linkcardMany.current=[]
       }else{
         throw new Error('这不是你的数据或者你没有此操作权限');
       }
@@ -207,26 +205,8 @@ const a=async (e:string)=>{
     }
 
 }
-const container = {
-  hidden: { opacity: 0, scale: 0 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      delayChildren: 0.3,
-      staggerChildren: 0.2
-    }
-  }
-} 
-  
-const item = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1
-  }
-}
-const [selectedId, setSelectedId] = useState<any>(null)
+
+
 function RSS(): void {
    if (LinkCardGather?.id) {
     router.push(`/api/feed/${LinkCardGather?.id}`)
@@ -245,11 +225,14 @@ function RSS(): void {
       { loading&&user?.id?'loding': <div className='flex  items-center flex-col dark:text-white'>
    <div className='w-full sm:w-[560px]  '>
      <div className='flex  m-2 text-xl font-bold items-center text-ellipsis justify-between'>
-     <h1 className='flex gap-2  items-center'>{newtitle[0].msg}-<Avatar  src={user?.image!}></Avatar></h1> 
+     <h1 className='flex gap-2  items-center'>{newtitle[0].msg} <Avatar  src={user?.image!}></Avatar></h1> 
      <div className='flex-2'>
      <Dalog  SetTitle={settitle} title={newtitle}    msg='更改你的信息,使他一目了然吧!' content='更改信息'>
+    {
+      session?.user.id==LinkCardGather?.userId?
      <GearIcon  className='text-2xl w-6 h-6 cursor-pointer  hover:text-violet-600 hover:rotate-180 transition-all duration-200 '></GearIcon>  
-</Dalog>
+    :null}
+     </Dalog>
      </div>
      </div> 
    <div>
@@ -267,16 +250,14 @@ variants={
   }
  whileInView={{ opacity: 1 }}
  whileHover={{scale:1.1}}
- layoutId={index.toString()} key={index} onClick={() => setSelectedId(index)}  >
+ layoutId={index.toString()} key={index} >
   <Card    title={msg.title} createdAt={msg.createdAt} description={msg.description} image={msg.image} url={msg.url} Setlist={()=>SetSlice(index)}></Card>
 </motion.div>
 ))}
 </div>
 { 
-
  session?.user.id!==LinkCardGather?.userId?<>
  <div className='flex justify-around w-full mt-3'>
-
 <button className='flex but-form items-center bg-blue-500 hover:shadow-gray-600 dark:hover:shadow-blue-500  shadow-md cursor-pointer' onClick={()=>RSS()}>
  <PhRssLight /> 订阅</button>
 <button className='flex but-form items-center bg-blue-500 hover:shadow-gray-600 dark:hover:shadow-blue-500  shadow-md cursor-pointer' onClick={()=>copy(()=>{
@@ -284,16 +265,15 @@ variants={
 })}><PhShare></PhShare>分享</button>
 </div>
  </>:<>
- <div className="flex gap-1 w-50vw sm:gap-3 justify-center m-5">
+ <div className="flex gap-1 dark:text-gray-700 w-50vw sm:gap-3 justify-center m-5">
  <input type="text" placeholder="https://github.com/" value={url}
  onChange={(e)=>{seturl(e.target.value)} 
 }   
  className="p-2 no-underline 
   dark:placeholder-violet-200
-  
  sm:w-80  w-64 border boder-black bg-white rounded-sm " name="" id="" />
      <button onClick={()=>a(url)} className=" but-form flex items-center text-nowrap text-sm  h-auto">
-{/* {!link?'添加链接':'解析中-'} */}
+
  添加
      </button>
  </div>
