@@ -9,8 +9,8 @@ import classNames from "classnames"
 import Link from "next/link"
 export const LinklistCard=({msg}:{msg:LinkCardGather})=>{ 
   
-   return <div className=' sm:w-96 dark:bg-black w-[90vw] rounded-lg border p-2  
-    shadow-sm flex flex-col h-full mb-4'>
+   return <div className=' sm:w-[calc(100%/4)] min-w-[400px] dark:bg-black w-[calc(100%/2)] rounded-lg border p-2  
+    shadow-sm flex flex-col  mb-4'>
      <div className="p-2" >  
       <Link href={`/new/detail?id=${msg.id}`}>      <h1 className={classNames(ZhiMangXing.className,'text-xl dark:text-white')} >{msg.title}</h1>
 </Link>
@@ -51,6 +51,7 @@ const COM=({bol=true}:{bol:boolean})=>{
   const { loading, data } =useRequest(PostLinkCard,{
     cacheKey:"aaaa",  
     onSuccess:(res)=>{
+      console.log(res);
       SetlinkCard(res)
     },
     
@@ -64,9 +65,7 @@ const COM=({bol=true}:{bol:boolean})=>{
            {bol?'这里是全体用户们公开的宝藏' :
            '我的链接可以直接修改,受邀链接只可以通过首页单次添加,我会在后续进行优化'}          </h3>
         </div>
- <div className="flex 
-  items-center md:items-start  md:justify-around flex-col
-    md:flex-row   flex-wrap   ">
+ <div className="m-10 gap-1 flex  flex-wrap  justify-around ">
  
  { loading ? <Loding/>: LinkListCardS.map((i,index)=>{
       return <LinklistCard   key={index} msg={i}></LinklistCard >

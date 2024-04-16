@@ -16,7 +16,7 @@ async function deletelinkcard(id:string, ) {
 }
 async function GET(req:NextApiRequest,res:NextApiResponse) {
   const [Session]=await authID(req,res)
- if (Session) {
+ if (!Session) {
   await prisma.linkCardGather.findMany({
     where:{
       open:true,

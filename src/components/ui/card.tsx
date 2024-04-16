@@ -15,7 +15,7 @@ export default function Cardbox({url,description,image,title,createdAt}:linktype
         <h3     className='dark:text-slate-300 leading-relaxed  w-full text-base md:text-lg font-medium md:font-semibold cursor-pointer break-words overflow-hidden'>
           {title} 
         </h3>
-       <h3 className=' overflow-hidden sm:line-clamp-none  line-clamp-3  h-auto  w-full text-base text-gray-600 md:text-xs font-medium md:font-semibold cursor-pointer break-words '>
+       <h3 className='   overflow-hidden  text-clip    h-auto max-h-[250px]   w-full text-base text-gray-600 md:text-xs font-medium md:font-semibold cursor-pointer break-words '>
 {description}
        </h3>
       <HoverCard.Root>
