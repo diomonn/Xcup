@@ -15,8 +15,7 @@ async function deletelinkcard(id:string, ) {
   })
 }
 async function GET(req:NextApiRequest,res:NextApiResponse) {
-  const [Session]=await authID(req,res)
- if (!Session) {
+
   await prisma.linkCardGather.findMany({
     where:{
       open:true,
@@ -28,12 +27,7 @@ async function GET(req:NextApiRequest,res:NextApiResponse) {
   }).then(msg=>{
     return res.status(200).json(msg)
   })
- }else{
-  return res.status(401).json({
-    msg:"请登录账号",
-    ok:"NOUSER"
-  })
- }
+ 
 }
 
 async function POST(req:NextApiRequest,res:NextApiResponse) {
